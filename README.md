@@ -1,5 +1,3 @@
-Here is the updated README.md file with the additional instructions:
-
 # Social Login with Google
 =====================================
 
