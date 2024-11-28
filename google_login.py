@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Depends
+from fastapi.responses import RedirectResponse
 import requests
 from dotenv import load_dotenv
 import os
@@ -18,9 +19,14 @@ async def login_google():
     This endpoint returns a JSON object with a single key, "url", which is the URL
     that the user should be redirected to in order to log in with Google.
     """
-    return {
-        "url": f"https://accounts.google.com/o/oauth2/auth?response_type=code&client_id={GOOGLE_CLIENT_ID}&redirect_uri={GOOGLE_REDIRECT_URI}&scope=openid%20profile%20email&access_type=offline"
-    }
+    
+    # Uncomment the following line to use get the login URL directly
+    # return {
+    #     "url": f"https://accounts.google.com/o/oauth2/auth?response_type=code&client_id={GOOGLE_CLIENT_ID}&redirect_uri={GOOGLE_REDIRECT_URI}&scope=openid%20profile%20email&access_type=offline"
+    # }
+
+    google_login_url = f"https://accounts.google.com/o/oauth2/auth?response_type=code&client_id={GOOGLE_CLIENT_ID}&redirect_uri={GOOGLE_REDIRECT_URI}&scope=openid%20profile%20email&access_type=offline"
+    return RedirectResponse(url=google_login_url)
 
 @app.get("/auth/google")
 async def auth_google(code: str):
